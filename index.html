@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画像ビューア</title>
+  <style>
+    body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    img { max-width: 100%; max-height: 100vh; display: block; }
+    #viewer { touch-action: manipulation; }
+  </style>
+</head>
+<body>
+  <div id="viewer">
+    <img id="slide" src="images/page1.png" alt="ページ1">
+  </div>
+
+  <script>
+    const images = [
+      "images/page1.png",
+      "images/page2.png",
+      "images/page3.png",
+      "images/page4.png",
+      "images/page5.png",
+      "images/page6.png",
+      "images/page7.png",
+      "images/page8.png",
+      "images/page9.png",
+      "images/page10.png",
+      "images/page11.png",
+      "images/page12.png",
+      "images/page13.png",
+      "images/page14.png",
+      "images/page15.png",
+      "images/page16.png",
+      "images/page17.png"
+    ];
+
+    let index = 0;
+    const slide = document.getElementById('slide');
+
+    function showNext() {
+      if (index < images.length - 1) index++;
+      slide.src = images[index];
+    }
+
+    function showPrev() {
+      if (index > 0) index--;
+      slide.src = images[index];
+    }
+
+    slide.addEventListener('click', (e) => {
+      const x = e.clientX;
+      if (x < window.innerWidth / 2) showPrev();
+      else showNext();
+    });
+
+    let touchStartX = 0;
+    slide.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+    });
+
+    slide.addEventListener('touchend', e => {
+      const touchEndX = e.changedTouches[0].clientX;
+      if (touchEndX < touchStartX - 50) showNext();
+      else if (touchEndX > touchStartX + 50) showPrev();
+    });
+  </script>
+</body>
+</html>
